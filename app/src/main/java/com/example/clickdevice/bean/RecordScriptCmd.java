@@ -10,7 +10,7 @@ public class RecordScriptCmd {
     public int duration;
 
     public enum  Type {
-        Gesture, Delay
+        Gesture, Delay, Gestureadd
     }
 
     public RecordScriptCmd() {
