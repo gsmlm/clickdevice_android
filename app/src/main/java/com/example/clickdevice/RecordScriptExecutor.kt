@@ -23,6 +23,9 @@ class RecordScriptExecutor {
                 RecordScriptCmd.Type.Gesture -> {
                     gesture(it,data[it])
                 }
+                RecordScriptCmd.Type.Gestureadd -> {
+                    gestureadd(it,data[it])
+                }
                 else -> {
                 }
             }
@@ -66,6 +69,27 @@ class RecordScriptExecutor {
             delay(recordScriptCmd.duration.toLong())
             delay(100)
             endDispatchGesture()
+        }
+
+    }
+    private fun gestureadd(position: Int, recordScriptCmd: RecordScriptCmd) {
+        if (delay(recordScriptCmd.delayed.toLong())) {
+            return
+        }
+        recordScriptInterface?.apply {
+            if (recordScriptCmd.path == null || recordScriptCmd.path.size == 0) {
+                return@apply
+            }
+            for (i in 1 until position) {
+                 val bean = recordScriptCmd.path[0]
+                 preDispatchGesture(bean.x, bean.y)
+                 delay(100)
+                 val createPath = createPath(recordScriptCmd.path)
+                 dispatchGesture(position, createPath, recordScriptCmd.duration)
+                 delay(recordScriptCmd.duration.toLong())
+                 delay(100)
+                 endDispatchGesture()
+            }
         }
 
     }
